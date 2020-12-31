@@ -1,0 +1,38 @@
+body {
+    background-color: white;
+}
+
+ul {
+    padding: 0;
+    list-style: none;
+
+    li.vokabeln:after {
+        background-color: grey;
+        height: 1px;
+        width: calc(100% + 40px);
+        display: block;
+        content: "";
+        position: relative;
+        left: -20px;
+        margin-bottom: 20px;
+    }
+}
+
+.container-center {
+    position: relative;
+    height: calc(100vh - 55px);
+
+    .card {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        max-width: 300px;
+    }
+}
+
+#vokabel {
+    font-size: 1.5em;
+    margin: auto;
+    text-align: center;
+}
