@@ -14,11 +14,18 @@ use Illuminate\Support\Facades\Route;
 */
 
 
+Route::get("/login", [\App\Http\Controllers\PublicController::class, "login"])->name("login");
+Route::get("/register", [\App\Http\Controllers\PublicController::class, "register"])->name("register");
 
-Route::get('/vokabels', function () {
+Route::get("/logout", [\App\Http\Controllers\PublicController::class, "logout"])->name("logout");
+
+Route::middleware("auth")->group(function(){
+  Route::get('/vokabels', function () {
     return view('add-vokabel');
-});
+  });
 
-Route::get("/", function(){
-  return view("random-vokabel");
+  Route::get("/", function(){
+    return view("random-vokabel");
+  });
+
 });
