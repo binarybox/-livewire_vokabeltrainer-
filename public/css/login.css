@@ -1,1 +1,0 @@
-body{background-color:var(--primary)}.login-wrapper{background-color:#fff;height:100vh}.login-wrapper .card-body{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:100%;max-width:300px}@media (min-width:768px){.login-wrapper{position:relative;box-shadow:3px 0 3px #807f7f;width:50vw}}
