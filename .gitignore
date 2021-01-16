@@ -100,3 +100,8 @@ Homestead.json
 Homestead.yaml
 npm-debug.log
 yarn-error.log
+
+
+# ignore generated js and css
+/public/css
+/public/js
