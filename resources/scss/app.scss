@@ -1,20 +1,26 @@
+@import 'variables';
+
 body {
-    background-color: white;
+    background-color: $white;
 }
 
 ul {
     padding: 0;
     list-style: none;
 
-    li.vokabeln:after {
-        background-color: grey;
-        height: 1px;
-        width: calc(100% + 40px);
-        display: block;
-        content: "";
-        position: relative;
-        left: -20px;
-        margin-bottom: 20px;
+    li {
+        .vokabeln {
+            &::after {
+                display: block;
+                position: relative;
+                left: -20px;
+                margin-bottom: 20px;
+                background-color: $gray;
+                width: calc(100% + 40px);
+                height: 1px;
+                content: '';
+            }
+        }
     }
 }
 
@@ -24,15 +30,15 @@ ul {
 
     .card {
         position: absolute;
-        left: 50%;
         top: 50%;
+        left: 50%;
         transform: translate(-50%, -50%);
         max-width: 300px;
     }
 }
 
 #vokabel {
-    font-size: 1.5em;
     margin: auto;
     text-align: center;
+    font-size: 1.5em;
 }
