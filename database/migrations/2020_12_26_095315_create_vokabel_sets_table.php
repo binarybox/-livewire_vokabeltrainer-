@@ -15,8 +15,14 @@ class CreateVokabelSetsTable extends Migration
     {
         Schema::create('vokabel_sets', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("user_id");
+            $table->foreign("user_id")
+                  ->references("id")
+                  ->on("users")
+                  ->onDelete("cascade");
             $table->timestamps();
-            $table->unsignedBigInteger("vokabel_id")
+            $table->unsignedBigInteger("vokabel_id");
+            $table->foreign("vokabel_id")
                   ->references("id")
                   ->on("vokabels")
                   ->onDelete("cascade");
