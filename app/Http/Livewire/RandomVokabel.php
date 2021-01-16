@@ -53,7 +53,7 @@ class RandomVokabel extends Component
 
   public function mount(){
     VokabelSet::check();
-    $this->setEntry = VokabelSet::all()->random(1)->first();
+    $this->setEntry = VokabelSet::orderby("updated_at")->take(5)->get()->random(1)->first();
     $this->vokabel = $this->setEntry->vokabel;
     $this->answer = "";
     $this->answersArray = "";
