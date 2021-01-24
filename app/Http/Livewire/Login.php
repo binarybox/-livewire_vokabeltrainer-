@@ -9,10 +9,11 @@ class Login extends Component
 {
   public $email = "";
   public $password = "";
+  public $remember = false;
 
   public function login(){
     $credentials = ["email" => $this->email, "password" => $this->password];
-    if(Auth::attempt($credentials)){
+    if(Auth::attempt($credentials, $this->remember)){
       return redirect("/");
     }
     else{

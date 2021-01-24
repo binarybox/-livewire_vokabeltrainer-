@@ -12,6 +12,13 @@
       <input type="password" class="form-control" wire:model="password" placeholder="password"/>
     </div>
     <div class="form-group">
+      <div class="form-check">
+        <input type="checkbox" class="form-check-input" wire:model="remember" id="remember" />
+        <label for="remember" class="form-check-label">Remember</label>
+
+      </div>
+    </div>
+    <div class="form-group">
       <button type="submit" class="btn btn-primary btn-raised btn-block">Submit</button>
     </div>
   </form>
