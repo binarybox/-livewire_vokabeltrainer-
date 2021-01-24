@@ -1,10 +1,7 @@
 FROM php:7.4.1-apache
 
 RUN apt-get update
-RUN apt-get install -y \
-      libzip-dev \
-      zip \
-      build-essential
+RUN apt-get install -y build-essential
 
 # 2. apache configs + document root
 ENV APACHE_DOCUMENT_ROOT=/var/www/html/public
@@ -17,9 +14,7 @@ RUN a2enmod rewrite headers
 # 4. start with base php config, then add extensions
 RUN mv "$PHP_INI_DIR/php.ini-development" "$PHP_INI_DIR/php.ini"
 
-RUN docker-php-ext-install \
-    pdo_mysql \
-    zip
+RUN docker-php-ext-install pdo_mysql
 
 # 5. composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
