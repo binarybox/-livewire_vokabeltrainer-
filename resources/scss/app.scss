@@ -4,6 +4,15 @@ body {
     background-color: $white;
 }
 
+.btn {
+    border-radius: 0;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+}
+
 ul {
     padding: 0;
     list-style: none;
@@ -23,17 +32,31 @@ ul {
         }
     }
 }
+@media (min-width: 576px) {
+    .container-center {
+        position: relative;
+        height: calc(100vh - 55px);
 
-.container-center {
-    position: relative;
-    height: calc(100vh - 55px);
+        .card {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 300px;
+        }
+    }
+}
 
-    .card {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        max-width: 300px;
+.toggler {
+    transition: height 0.3s ease, margin 0.3s ease, padding 0.3s ease;
+    height: 41px;
+
+    &.hidden {
+        visibility: hidden;
+        margin: 0;
+        padding: 0;
+        height: 0;
+        overflow: hidden;
     }
 }
 
