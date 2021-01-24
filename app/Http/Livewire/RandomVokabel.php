@@ -7,6 +7,8 @@ use App\Models\Vokabel;
 use App\Models\VokabelSet;
 use Carbon\Carbon;
 
+use Illuminate\Support\Facades\Auth;
+
 class RandomVokabel extends Component
 {
   public $vokabel;
@@ -25,23 +27,21 @@ class RandomVokabel extends Component
     $answers = $this->vokabel->answers;
     if($answers->where("word", $this->answer)->count() > 0){
       if(!$this->try){
+        $this->vokabel->stats()->first()->inc();
         $this->setEntry->counter += 1;
-        $this->vokabel->counter += 1;
+        $this->setEntry->updated_at = \Carbon\Carbon::now();
+        $this->setEntry->save();
       }
-      $this->vokabel->solved = Carbon::now();
-      $this->vokabel->save();
-      $this->setEntry->updated_at = Carbon::now();
-      $this->setEntry->save();
       $this->mount();
     }
     else{
       if(!$this->try){
+        $this->vokabel->stats()->first()->dec();
         if($this->setEntry->counter > 0){
           $this->setEntry->counter -= 1;
-          $this->vokabel->counter -= 1;
-          $this->vokabel->save();
-          $this->setEntry->save();
         }
+        $this->setEntry->updated_at = \Carbon\Carbon::now();
+        $this->setEntry->save();
       }
       $this->try = true;
     }

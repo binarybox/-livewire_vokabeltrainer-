@@ -12,7 +12,9 @@ class VokabelSet extends Model
   public static function check(){
 
     // remove counter bigger then 3 to not get to boring
-    $big = VokabelSet::where("user_id", Auth::id())->whereRaw("counter > 3");
+    $big = VokabelSet::where("user_id", Auth::id())
+                      ->whereRaw("counter > 3");
+
     if($big->exists()){
       $big->each(function($e){
         $e->delete();
@@ -25,15 +27,23 @@ class VokabelSet extends Model
         VokabelSet::addVokabel();
       }
     }
-
   }
 
-
-
   public static function addVokabel(){
-    $current = VokabelSet::where("user_id", Auth::id())->pluck("vokabel_id");
+    $userId = Auth::id();
 
-    $vokabel = Vokabel::whereNotIn("id", $current)->oldest("solved")->first();
+    $current = VokabelSet::where("user_id", $userId)->pluck("vokabel_id");
+
+    $vokabels = Vokabel::whereNotIn("id", $current);
+
+    $vokabel;
+    if($vokabels->has("stats")->exists()){
+
+      $vokabel = $vokabels->has("stats")->first();
+    }
+    else{
+      $vokabel = $vokabels->oldest("vokabels.created_at")->first();
+    }
     VokabelSet::create(["vokabel_id" => $vokabel->getKey(), "user_id" => Auth::id()]);
   }
 

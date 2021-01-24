@@ -7,7 +7,11 @@ use Carbon\Carbon;
       {{$vokabel->counter}}
   </div>
   <div class="col-6 col-md-2">
-      {{Carbon::create($vokabel->solved)->format('l j.m H:i')}}
+    @if ($vokabel->solved)
+      {{Carbon::create($vokabel->solved)->format('j.m.Y H:i')}}
+    @else
+      {{"---"}}
+    @endif
   </div>
     <div class="form-group col-6 col-md-3">
       <input type="text" class="form-control" wire:model="vokabel.word" value="vokabel.word" />
