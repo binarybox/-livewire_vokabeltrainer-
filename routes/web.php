@@ -20,12 +20,7 @@ Route::get("/register", [\App\Http\Controllers\PublicController::class, "registe
 Route::get("/logout", [\App\Http\Controllers\PublicController::class, "logout"])->name("logout");
 
 Route::middleware("auth")->group(function(){
-  Route::get('/vokabels', function () {
-    return view('add-vokabel');
-  });
+  Route::get('/vokabels', [\App\Http\Controllers\VokabelController::class, "addVokabel"])->name("list.vokabel");
 
-  Route::get("/", function(){
-    return view("random-vokabel");
-  });
-
+  Route::get("/", [\App\Http\Controllers\VokabelController::class, "RandomVokabel"])->name("random.vokabel");
 });
