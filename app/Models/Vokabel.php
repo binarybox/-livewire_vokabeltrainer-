@@ -19,7 +19,7 @@ class Vokabel extends Model
   }
 
   public function stats(){
-    return $this->hasMany(UserStats::class)->where("user_id", Auth::id());
+    return $this->hasMany(UserStats::class);
   }
     use HasFactory;
 }
