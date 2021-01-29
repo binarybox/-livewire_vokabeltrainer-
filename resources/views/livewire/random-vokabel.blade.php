@@ -7,7 +7,7 @@
       <div class="form-group">
         <input  wire:model.defer="answer" class="form-control" />
       </div>
-        <div class="alert alert-warning toggler {{ !$try ? 'hidden ' : ''}}">
+        <div class="alert alert-warning toggler {{ $answersArray === '' ? 'hidden ' : ''}}">
           {{$answersArray}}
         </div>
       <div class="form-group row">

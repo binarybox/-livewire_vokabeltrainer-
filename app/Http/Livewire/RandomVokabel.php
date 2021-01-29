@@ -18,9 +18,8 @@ class RandomVokabel extends Component
   public $try = false;
 
   public function help(){
-    $ans = $this->vokabel->answers->pluck("word");
-    $this->answersArray = implode(', ', $ans->toArray());
-    $this->answer = "";
+    $this->answersArray = $this->vokabel->answers->pluck("word")->implode(", ");
+    //$this->answer = "";
   }
 
   public function submit(){
@@ -35,7 +34,7 @@ class RandomVokabel extends Component
       $this->mount();
     }
     else{
-      $this->answersArray = $this->vokabel->answers->pluck("word")->implode(", ");
+
       if(!$this->try){
         $this->vokabel->stats()->first()->dec();
         if($this->setEntry->counter > 0){
