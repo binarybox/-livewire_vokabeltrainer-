@@ -26,7 +26,7 @@ class RandomVokabel extends Component
     $answers = $this->vokabel->answers;
     if($answers->where("word", $this->answer)->count() > 0){
       if(!$this->try){
-        $this->vokabel->stats()->first()->inc();
+        $this->vokabel->stats()->inc();
         $this->setEntry->counter += 1;
         $this->setEntry->updated_at = \Carbon\Carbon::now();
         $this->setEntry->save();
@@ -36,7 +36,7 @@ class RandomVokabel extends Component
     else{
 
       if(!$this->try){
-        $this->vokabel->stats()->first()->dec();
+        $this->vokabel->stats()->dec();
         if($this->setEntry->counter > 0){
           $this->setEntry->counter -= 1;
         }

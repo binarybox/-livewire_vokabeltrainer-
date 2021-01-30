@@ -34,21 +34,13 @@ class VokabelSet extends Model
 
     $current = VokabelSet::where("user_id", $userId)->pluck("vokabel_id");
 
-    $vokabels = Vokabel::whereNotIn("id", $current);
+    $vokabel = Vokabel::whereNotIn("vokabels.id", $current)
+                        ->leftJoin("user_stats", "user_stats.vokabel_id", "=", "vokabels.id")
+                        ->where("user_stats.user_id", Auth::id())
+                        ->orderby("counter", "desc")
+                        ->select("vokabels.id as id")
+                        ->first();
 
-    $vokabel;
-    if($vokabels->whereDoesntHave("stats")->exists()){
-      $vokabel = $vokabels->orderBy("id", "desc")->select("vokabels.id as id")->first();
-    }
-    else{
-      $vokabels = Vokabel::whereNotIn("vokabels.id", $current);
-      $vokabel = $vokabels->join("user_stats", "user_stats.vokabel_id", "=", "vokabels.id")
-                          ->where("user_stats.user_id", Auth::id())
-                          ->orderby("counter", "desc")
-                          ->select("vokabels.id as id")
-                          ->first();
-      // dd($vokabel);
-    }
     VokabelSet::create(["vokabel_id" => $vokabel->id, "user_id" => Auth::id()]);
   }
 

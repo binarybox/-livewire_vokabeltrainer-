@@ -10,16 +10,18 @@ class Vokabel extends Model
 {
   public $timestamps = false;
   protected $fillable = ["word"];
+
   public function answers(){
     return $this->belongsToMany(Vokabel::class, "vokabel_answers", "vokabels_id", "answer_id" );
   }
 
-  public function stat(int $userID){
-    return $this->hasMany(User::class)->where("user_id", $userId);
-  }
-
   public function stats(){
-    return $this->hasMany(UserStats::class);
+    $stats = UserStats::where("vokabel_id", $this->getKey())
+                ->where("user_id", Auth::id())->first();
+    if($stats){
+      return $stats;
+    }
+    return UserStats::create(["vokabel_id" => $this->getKey(), "user_id" => Auth::id()]);
   }
     use HasFactory;
 }
