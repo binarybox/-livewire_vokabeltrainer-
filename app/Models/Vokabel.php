@@ -15,6 +15,10 @@ class Vokabel extends Model
     return $this->belongsToMany(Vokabel::class, "vokabel_answers", "vokabels_id", "answer_id" );
   }
 
+  public function user_stats(){
+    return $this->hasMany("user_stats", "user_stats.vokabel_id", "vokabels.id");
+  }
+
   public function stats(){
     $stats = UserStats::where("vokabel_id", $this->getKey())
                 ->where("user_id", Auth::id())->first();
