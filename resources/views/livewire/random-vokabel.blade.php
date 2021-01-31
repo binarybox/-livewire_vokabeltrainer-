@@ -1,11 +1,10 @@
 <div>
-    {{-- The whole world belongs to you --}}
     <div id="vokabel">
       {{$vokabel->word}}
     </div>
     <form wire:submit.prevent="submit">
       <div class="form-group">
-        <input  wire:model.defer="answer" class="form-control" />
+        <input wire:model.defer="answer" class="form-control" />
       </div>
         <div class="alert alert-warning toggler {{ $answersArray === '' ? 'hidden ' : ''}}">
           {{$answersArray}}
