@@ -47,10 +47,6 @@ class RandomVokabel extends Component
     }
   }
 
-  private function checkSet(){
-
-  }
-
   public function mount(){
     VokabelSet::check();
     $this->setEntry = VokabelSet::orderby("updated_at")->take(5)->get()->random(1)->first();
