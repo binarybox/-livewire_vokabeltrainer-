@@ -30,7 +30,7 @@ class UserStats extends Model
 
     public function dec($amount)
     {
-        if ($this->counter > $amount) {
+        if ($this->counter >= $amount) {
             $this->counter -= $amount;
         }
         $this->updated_at = \Carbon\Carbon::now();

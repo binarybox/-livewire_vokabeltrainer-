@@ -1,4 +1,5 @@
 @import 'variables';
+@import 'navbar';
 
 body {
     background-color: $white;
@@ -6,6 +7,11 @@ body {
 
 .btn {
     border-radius: 0;
+    transition: opacity .3s ease;
+    &.hidden{
+      opacity: 0;
+      pointer-events: none;
+    }
 }
 
 .navbar {
@@ -60,8 +66,28 @@ ul {
     }
 }
 
+.toggler{
+    transition: height 0.3s ease, margin 0.3s ease, padding 0.3s ease;
+    overflow: hidden;
+}
+
 #vokabel {
     margin: auto;
     text-align: center;
     font-size: 1.5em;
+}
+
+.cards-wrapper{
+  overflow: hidden;
+}
+
+.nav-tabs-cards{
+  position: relative;
+  transition: left .5s ease;
+  min-width: 100%;
+}
+
+.transition-height{
+  overflow: hidden;
+  transition: height .3s ease;
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Vokabels;
 
 use Livewire\Component;
 use \App\Models\Vokabel;
@@ -17,39 +17,40 @@ class AddVokabel extends Component
         'answers' => 'required',
     ];
 
-    public function submit(){
-      $this->validate();
-      $vokabel = Vokabel::firstOrCreate(["word" => trim($this->vokabel)]);
-      $ans = explode(",", $this->answers);
-      foreach($ans as $vok){
-        $answer = Vokabel::firstOrCreate(["word" => trim($vok)]);
-        if(!DB::table("vokabel_answers")->where([
+    public function submit()
+    {
+        $this->validate();
+        $vokabel = Vokabel::firstOrCreate(["word" => trim($this->vokabel)]);
+        $ans = explode(",", $this->answers);
+        foreach ($ans as $vok) {
+            $answer = Vokabel::firstOrCreate(["word" => trim($vok)]);
+            if (!DB::table("vokabel_answers")->where([
           ["vokabels_id", "=", $vokabel->getKey()],
           ["answer_id", "=", $answer->getKey()]
-        ])->exists()){
-          DB::table("vokabel_answers")->insert(array(
+        ])->exists()) {
+                DB::table("vokabel_answers")->insert(array(
             "vokabels_id" => $vokabel->getKey(),
             "answer_id" => $answer->getKey(),
           ));
-        }
+            }
 
-        if(!DB::table("vokabel_answers")->where([
+            if (!DB::table("vokabel_answers")->where([
           ["vokabels_id", "=", $answer->getKey()],
           ["answer_id", "=", $vokabel->getKey()]
-        ])->exists()){
-          DB::table("vokabel_answers")->insert(array(
+        ])->exists()) {
+                DB::table("vokabel_answers")->insert(array(
             "vokabels_id" => $answer->getKey(),
             "answer_id" => $vokabel->getKey()
           ));
+            }
         }
-      }
-      $this->vokabel = "";
-      $this->answers = "";
-      $this->emit("addVokabel");
+        $this->vokabel = "";
+        $this->answers = "";
+        $this->emitUp("addVokabel");
     }
 
     public function render()
     {
-        return view('livewire.add-vokabel');
+        return view('vokabels.add-vokabel');
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Livewire;
+namespace App\Http\Livewire\Vokabels;
 
 use Livewire\Component;
 use App\Models\Vokabel;
@@ -15,43 +15,54 @@ class RandomVokabel extends Component
     public $setEntry;
     public $answer = "";
     public $answersArray = "";
-    public $try = false;
+    public $try_vokabel = false;
+    public $i = 0;
 
     public function help()
     {
         $this->answersArray = $this->vokabel->answers->pluck("word")->implode(", ");
-        //$this->answer = "";
     }
 
     public function submit()
     {
         $answers = $this->vokabel->answers;
+
+        $entry_query = [
+          ["user_id", "=", \Auth::id()],
+          ["vokabel_id", "=", $this->vokabel->id]
+        ];
+
         if ($answers->where("word", $this->answer)->count() > 0) {
-            if (!$this->try) {
-                $amount = $this->setEntry->inc();
-                $this->vokabel->stats()->inc($amount);
+            if (!$this->try_vokabel) {
+                $this->vokabel->inc();
             }
-            $this->mount();
+
+            $this->setVokabel();
         } else {
-            if (!$this->try) {
-                $amount = $this->setEntry->dec();
-                $this->vokabel->stats()->dec($amount);
+            if (!$this->try_vokabel) {
+                $this->vokabel->dec();
             }
-            $this->try = true;
+            $this->try_vokabel = true;
         }
+    }
+
+    public function setVokabel()
+    {
+        VokabelSet::check();
+        $this->setEntry = VokabelSet::orderby("updated_at")->take(5)->get()->random(1)->first();
+
+        $this->vokabel = $this->setEntry->vokabel;
+        $this->answer = "";
+        $this->answersArray = "";
+        $this->try_vokabel = false;
     }
 
     public function mount()
     {
-        VokabelSet::check();
-        $this->setEntry = VokabelSet::orderby("updated_at")->take(5)->get()->random(1)->first();
-        $this->vokabel = $this->setEntry->vokabel;
-        $this->answer = "";
-        $this->answersArray = "";
-        $this->try = false;
+        $this->setVokabel();
     }
     public function render()
     {
-        return view('livewire.random-vokabel');
+        return view('vokabels.random-vokabel');
     }
 }

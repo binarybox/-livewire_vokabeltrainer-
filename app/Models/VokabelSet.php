@@ -8,24 +8,21 @@ use Illuminate\Support\Facades\Auth;
 
 class VokabelSet extends Model
 {
-    private const MAX_COUNT = 10;
+    private const MAX_COUNT = 3;
+    private const SET_SIZE = 10;
 
-    protected $fillable = ["vokabel_id", "user_id"];
+    protected $primaryKey = null;
+    public $incrementing = false;
+    protected $fillable = ["vokabel_id", "user_id", "counter"];
     public static function check()
     {
 
     // remove counter bigger then 3 to not get to boring
-        $big = VokabelSet::where("user_id", Auth::id())
-                      ->whereRaw("counter > 3");
-
-        if ($big->exists()) {
-            $big->each(function ($e) {
-                $e->delete();
-            });
-        }
+        VokabelSet::where("user_id", Auth::id())
+                         ->where([["counter", ">", self::MAX_COUNT]])->delete();
 
         // keep the set at size 10 to make it easier to remember words
-        if (VokabelSet::where("user_id", Auth::id())->count() < self::MAX_COUNT) {
+        if (VokabelSet::where("user_id", Auth::id())->count() < self::SET_SIZE) {
             for ($i = VokabelSet::where("user_id", Auth::id())->count(); $i < 10; $i++) {
                 VokabelSet::addVokabel();
             }
@@ -55,35 +52,7 @@ class VokabelSet extends Model
                         ->orderby("counter", "asc")->first();
         }
 
-
         VokabelSet::create(["vokabel_id" => $vokabel->id, "user_id" => Auth::id()]);
-    }
-
-    public function inc()
-    {
-        $amount = 1;
-        if ($this->counter === 0) {
-            $this->counter = self::MAX_COUNT;
-            $amount = self::MAX_COUNT;
-        } else {
-            $this->counter += 1;
-        }
-        $this->updated_at = \Carbon\Carbon::now();
-        $this->save();
-        return $amount;
-    }
-
-    public function dec()
-    {
-        $amount = 1;
-        if ($this->counter < 1) {
-            $this->counter += 1;
-        } else {
-            $this->counter -= 1;
-        }
-        $this->updated_at = \Carbon\Carbon::now();
-        $this->save();
-        return 1;
     }
 
     public function vokabel()

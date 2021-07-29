@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Artisan;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -33,9 +34,10 @@ Route::get("/register", [\App\Http\Controllers\PublicController::class, "registe
 
 Route::get("/logout", [\App\Http\Controllers\PublicController::class, "logout"])->name("logout");
 
-Route::middleware("auth")->group(function(){
-  Route::get('/vokabels', [\App\Http\Controllers\VokabelController::class, "addVokabel"])->name("list.vokabel");
+Route::middleware("auth")->group(function () {
+    Route::get('/vokabels', \App\Http\Livewire\Vokabels\AddVokabel::class)->name("list.vokabel");
 
-  Route::get("/", [\App\Http\Controllers\VokabelController::class, "RandomVokabel"])->name("random.vokabel");
-  Route::get("/numbers", [\App\Http\Controllers\NumberController::class, "RandomNumber"])->name("random.number");
+    Route::get('/stats', \App\Http\Livewire\Stats::class)->name("stats");
+    Route::get("/", \App\Http\Livewire\Vokabels\RandomVokabel::class)->name("random.vokabel");
+    Route::get("/numbers", \App\Http\Livewire\Numbers\RandomNumbers::class)->name("random.number");
 });

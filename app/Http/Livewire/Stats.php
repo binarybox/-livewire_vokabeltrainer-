@@ -4,10 +4,10 @@ namespace App\Http\Livewire;
 
 use Livewire\Component;
 
-class ShowVokabeln extends Component
+class Stats extends Component
 {
     public function render()
     {
-        return view('livewire.show-vokabeln');
+        return view('livewire.stats');
     }
 }

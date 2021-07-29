@@ -1,6 +1,7 @@
 <?php
 use Carbon\Carbon;
- ?>
+
+?>
 
 <form wire:submit.prevent="save" id="ans-{{ $vokabel->id }}" class="row">
   <div class="col-6 col-md-1">
@@ -8,7 +9,7 @@ use Carbon\Carbon;
   </div>
   <div class="col-6 col-md-2">
     @if ($vokabel->solved)
-      {{Carbon::create($vokabel->solved)->format('j.m.Y H:i')}}
+      {{Carbon::create($vokabel->solved)->format('j.m.Y')}}
     @else
       {{"---"}}
     @endif
@@ -27,9 +28,9 @@ use Carbon\Carbon;
       </ul>
     </div>
     <div class="col-6 col-md-2">
-      <button type="submit" class="btn btn-primary btn-raised btn-block">update</button>
+      <button type="submit" class="btn btn-primary btn-raised btn-block {{$can_save ? '' : 'hidden'}}"><i class="material-icons">save</i></button>
     </div>
     <div class="col-6 col-md-2">
-      <button type="button" class="btn btn-danger btn-raised btn-block" wire:click="remove">remove</button>
+      <button type="button" class="btn btn-danger btn-raised btn-block" wire:click="remove"><i class="material-icons">delete</i></button>
     </div>
 </form>

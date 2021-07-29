@@ -30,18 +30,21 @@ class CreateUserStatsTable extends Migration
         });
 
         // get all old entries and put it in the user stats table
-        if(Schema::hasColumn("vokabels", "counter")){
-          $userID = \App\Models\User::all()->first()->id;
-          \App\Models\Vokabel::all()->each(function($elem) use ($userID){
-            $stat = \App\Models\UserStats::create(["user_id" => $userID, "vokabel_id" => $elem->id]);
-            $stat->counter = $elem->counter;
-            $stat->updated_at = $elem->solved;
-            $stat->save();
-          });
-          Schema::table("vokabels", function($table){
-            $table->dropColumn("counter");
-            $table->dropColumn("solved");
-          });
+        if (Schema::hasColumn("vokabels", "counter")) {
+            $user = \App\Models\User::all()->first();
+            if ($user) {
+                \App\Models\Vokabel::all()->each(function ($elem) use ($user) {
+                    $stat = \App\Models\UserStats::create(["user_id" => $user->id, "vokabel_id" => $elem->id]);
+                    $stat->counter = $elem->counter;
+                    $stat->updated_at = $elem->solved;
+                    $stat->save();
+                });
+            }
+
+            Schema::table("vokabels", function ($table) {
+                $table->dropColumn("counter");
+                $table->dropColumn("solved");
+            });
         }
     }
 

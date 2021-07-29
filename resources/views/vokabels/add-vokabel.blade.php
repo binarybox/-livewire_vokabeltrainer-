@@ -1,16 +1,18 @@
-@extends('layout')
 
-@section('content')
-<div class="card">
-  <div class="card-header">
-      <h2>Add Vokabel</h2>
-  </div>
-  <div class="card-body">
-    <livewire:add-vokabel />
-  </div>
-</div>
-<div class="card">
+    <div>
+      <form class="row" wire:submit.prevent="submit">
+        <div class="form-group col-6">
+          <input class="form-control" type="text" wire:model="vokabel" placeholder="vokabel"/>
+          @error('vokabel') <span class="error">{{ $message }}</span> @enderror
+        </div>
+        <div class="form-group col-6">
+          <input class="form-control" wire:model="answers" placeholder="answers"/>
+          @error('answers') <span class="error">{{ $message }}</span> @enderror
+        </div>
+        <div class="col-4">
+          <button class="btn btn-primary btn-raised" type="submit">Submit</button>
 
-      <livewire:list-vokabels />
-</div>
-@endsection
+        </div>
+      </form>
+      {{implode(": ", $res)}}
+    </div>

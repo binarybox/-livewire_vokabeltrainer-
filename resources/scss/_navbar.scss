@@ -1,0 +1,17 @@
+.navbar-collapse{
+  max-height: 100vh;
+  transition: max-height .5s ease;
+  overflow: hidden;
+  &.collapse{
+    max-height: 0;
+    display: block;
+  }
+}
+@media (min-width: 768px){
+  .navbar-expand-lg, .navbar-expand-md{
+    .navbar-collapse{
+      max-height: none !important;
+    }
+  }
+
+}
