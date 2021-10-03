@@ -1,62 +1,64 @@
 <div x-data="{open_add: false}">
-  <div
-  class="toggler"
-  style="height: 0px" x-bind:style="open_add ? 'height: ' + $refs.container.scrollHeight + 'px' : 'height: 0px'"
+<div class="pt-4 flex justify-center">
+<div>
+  <x-h2>List ({{$total_vokabels}}) Vokabels</x-h2>
+  <div class="row">
+    <x-form-group>
+      <x-input value="search" placeholder="search"/>
+
+    </x-form-group>
+    <x-form-group>
+      <x-button type="button" click="open_add = true">Add vokabel</x-button>
+    </x-form-group>
+  </div>
+  <div class="overflow-hidden transition-all duration-1000 m-y-4"
+  style="height: 0px" x-bind:style="open_add ? 'height: calc( 1rem + ' + $refs.container.scrollHeight + 'px)' : 'height: 0px'"
   x-on:window.livewire.addVokabel="open_add = false"
   x-ref="container">
-    <div class="card ">
-      <div class="card-header d-flex justify-content-between">
+    <x-card>
+      <div class="flex justify-between ">
         <h2>Add Vokabel</h2>
-        <button @click="open_add = false" class="btn btn-secondary">
+        <x-button click="open_add = false" variant="gray" outline round>
           <i class="material-icons">close</i>
-        </button>
+        </x-button>
       </div>
       <div class="card-body">
         <livewire:vokabels.add-vokabel />
       </div>
-    </div>
+    </x-card>
 
   </div>
-<div class="card-header">
-  <h2 >list ({{$total_vokabels}}) Vokabels</h2>
-  <div class="row">
-    <div class="col-6">
-      <input class="form-control" wire:model.lazy="search" placeholder="search"/>
-
-    </div>
-    <div class="col-6">
-      <button type="button" @click="open_add = true" class="btn btn-primary btn-raised btn-block">add vokabel</button>
-    </div>
-  </div>
+</div>
 </div>
 <div class="card-body">
 <div>
-    <ul>
+    <ul class="flex lg:flex-wrap items-center flex-col lg:flex-row">
       @foreach($vokabels as $key => $vokabel)
-      <li class="vokabeln">
+      <li class="w-full lg:w-1/2">
         <livewire:vokabels.single-vokabel :vokabel="$vokabel" key="vokabel-id-{{$vokabel->getKey()}}" />
       </li>
         @endforeach
     </ul>
   </div>
   @if($page_start - 1 != $last_page)
-  <nav aria-label="Page navigation example">
-  <ul class="pagination">
-    <li class="page-item {{$page == 1 ? 'disabled' : ''}}"><a class="page-link" wire:click="previousPage">Previous</a></li>
-    <li class="page-item {{$page == 1 ? 'active' : ''}}"><a class="page-link" wire:click="setPage(1)">1</a></li>
+  <nav class="flex justify-center m-2 py-4 gap-4">
+    <x-page-link click="previousPage" disabled="{{$page == 1}}" >Previous</x-page-link>
+    <x-page-link click="setPage(1)" active="{{$page == 1}}" >1</x-page-link>
     @if($page_start > 2)
-    <li class="page-item disabled"><a  class="page-link" >...</a></li>
+    <x-page-link  disabled >...</x-page-link>
     @endif
-    @for($i = $page_start; $i <= $page_end; $i++)
-    <li class="page-item {{$page == $i ? 'active' : ''}}"><a class="page-link " wire:click="setPage({{$i}})">{{$i}}</a></li>
-    @endfor
-    @if($page_end < $last_page - 1)
-    <li class="page-item disabled"><a  class="page-link" >...</a></li>
+      @for($i = 2; $i <= $last_page - 1; $i++)
+      @if($page -3 < $i && $page +3 > $i)
+      <x-page-link active="{{$page == $i}}" click="setPage({{$i}})">{{$i}}</x-page-link>
+      @endif
+      @endfor
+    @if($page + 3 < $last_page)
+    <x-page-link disabled>...</x-page-link>
     @endif
-    <li class="page-item {{$page == $last_page ? 'active' : ''}}"><a class="page-link" wire:click="setPage({{$last_page}})">{{$last_page}}</a></li>
-    <li class="page-item {{$page == $last_page ? 'disabled' : ''}}"><a class="page-link" wire:click="nextPage">Next</a></li>
-  </ul>
-  @endif
+    <x-page-link active="{{$page == $last_page}}" click="setPage({{$last_page}})">{{$last_page}}</x-page-link>
+    <x-page-link disabled="{{$page == $last_page}}" click="nextPage">Next</x-page-link>
+  
 </nav>
+@endif
 </div>
 </div>

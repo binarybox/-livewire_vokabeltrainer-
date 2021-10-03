@@ -1,16 +1,16 @@
 
     <div>
       <form class="row" wire:submit.prevent="submit">
-        <div class="form-group col-6">
-          <input class="form-control" type="text" wire:model="vokabel" placeholder="vokabel"/>
+        <x-form-group>
+          <x-input type="text" value="vokabel" placeholder="vokabel"/>
           @error('vokabel') <span class="error">{{ $message }}</span> @enderror
-        </div>
-        <div class="form-group col-6">
-          <input class="form-control" wire:model="answers" placeholder="answers"/>
+        </x-form-group>
+        <x-form-group>
+          <x-input  value="answers" placeholder="answers"/>
           @error('answers') <span class="error">{{ $message }}</span> @enderror
-        </div>
+        </x-form-group>
         <div class="col-4">
-          <button class="btn btn-primary btn-raised" type="submit">Submit</button>
+          <x-button type="submit">Submit</x-button>
 
         </div>
       </form>

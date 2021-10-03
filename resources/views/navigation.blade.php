@@ -15,23 +15,22 @@
   </div>
 </nav> -->
 
-<nav class="navbar navbar-expand-md navbar-light " x-data="{collapse: true}">
-  <a class="navbar-brand" href="#"></a>
-  <button class="navbar-toggler" type="button" @click="collapse = !collapse">
-    <span class="navbar-toggler-icon"></span>
-  </button>
+<nav class="block fixed w-full px-6 z-50 bg-white  border-b-2" x-data="{collapse: true}">
+  <a sm:hidden href="#"></a>
+  <div class="hidden">
+    <x-button type="button" @click="collapse = !collapse">
+      <span class="material-icons-outlined">menu</span>
+    </x-button>
+  </div>
 
-  <div class="collapse navbar-collapse" x-bind:class="{collapse: collapse}">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item @if(\Route::current()->getName() == 'random.vokabel') active @endif">
-        <a class="nav-link" href="{{route('random.vokabel')}}">Random vokabel</a>
-      </li>
-      <li class="nav-item @if(\Route::current()->getName() == 'random.number') active @endif">
-        <a class="nav-link" href="{{route('random.number')}}">Random numbers</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link @if(\Route::current()->getName() == 'stats') active @endif" href="{{route('stats')}}">Stats</a>
-      </li>
-    </ul>
+  <div class="block w-full" x-bind:class="{collapse: collapse}">
+    <div class="flex justify-between">
+    <div class="flex">
+      <x-nav-link route="random.vokabel" name="Random vokabel"/>
+      <x-nav-link route="random.number" name="Random number"/>
+      <x-nav-link route="stats" name="Stats"/>
+    </div>
+    <x-nav-link route="logout" name="Logout"/>
+    </div>
   </div>
 </nav>

@@ -3,34 +3,34 @@ use Carbon\Carbon;
 
 ?>
 
-<form wire:submit.prevent="save" id="ans-{{ $vokabel->id }}" class="row">
-  <div class="col-6 col-md-1">
+<form wire:submit.prevent="save" id="ans-{{ $vokabel->id }}" class="flex justify-between px-4 py-4">
+  <div class="w-1/12">
       {{$vokabel->counter}}
   </div>
-  <div class="col-6 col-md-2">
+  <div class="w-1/12">
     @if ($vokabel->solved)
       {{Carbon::create($vokabel->solved)->format('j.m.Y')}}
     @else
       {{"---"}}
     @endif
   </div>
-    <div class="form-group col-6 col-md-3">
-      <input type="text" class="form-control" wire:model="vokabel.word" value="vokabel.word" />
+    <div class="w-4/12 px-4">
+      <x-input type="text" value="vokabel.word" />
 
     </div>
-    <div class="col-6 col-md-2">
-      <ul>
-        @foreach($vokabel->answers as $answer)
+    <div class="w-4/12">
+      <ul class="flex flex-wrap">
+        @foreach($vokabel->answers as $key => $answer)
         <li>
-          <a href="#ans-{{$answer->id}}">{{$answer->word}}</a>
+          {{$answer->word}}{{$key == count($vokabel->answers) - 1 ? '': ', '}}
         </li>
         @endforeach
       </ul>
     </div>
-    <div class="col-6 col-md-2">
-      <button type="submit" class="btn btn-primary btn-raised btn-block {{$can_save ? '' : 'hidden'}}"><i class="material-icons">save</i></button>
+    <div class="w-1/12">
+      <x-button type="submit"><i class="material-icons">save</i></x-button>
     </div>
-    <div class="col-6 col-md-2">
-      <button type="button" class="btn btn-danger btn-raised btn-block" wire:click="remove"><i class="material-icons">delete</i></button>
+    <div class="w-1/12">
+      <x-button type="button" variant="danger" wire-click="remove"><i class="material-icons">delete</i></x-button>
     </div>
 </form>

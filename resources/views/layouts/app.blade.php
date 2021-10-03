@@ -6,14 +6,16 @@
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
       rel="stylesheet">
         <script  src="/js/app.js?v={{ env('APP_VERSION') }}" ></script>
-        <script src="//unpkg.com/alpinejs" defer></script>
+
+        <script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.8.2/dist/alpine.min.js" defer></script>
         <title>Laravel</title>
         @livewireStyles
     </head>
     <body>
       @include("navigation")
-
-      {{$slot}}
+      
+          {{$slot}}
         @livewireScripts
+        @stack('scripts')
     </body>
 </html>
