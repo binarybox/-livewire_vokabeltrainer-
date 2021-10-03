@@ -106,17 +106,20 @@ class RandomNumbers extends Component
             if (!$this->try) {
                 Numbers::inc($this->number);
             }
+            $this->dispatchBrowserEvent('correct');
             $this->mount();
         } else {
             if (!$this->try) {
                 Numbers::dec($this->number);
             }
             $this->try = true;
+            $this->help();
         }
     }
 
     public function help()
     {
+        $this->answer = "";
         if ($this->try) {
             $thousand = $this->number / 1000;
             $hundred = ($this->number / 100) % 1000;
