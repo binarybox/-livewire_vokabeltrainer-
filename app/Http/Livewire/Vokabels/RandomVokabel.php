@@ -15,12 +15,13 @@ class RandomVokabel extends Component
     public $setEntry;
     public $answer = "";
     public $answersArray = "";
+    public $show_answer = false;
     public $try_vokabel = false;
     public $i = 0;
 
     public function help()
     {
-        $this->answersArray = $this->vokabel->answers->pluck("word")->implode(", ");
+        $this->show_answer = true;
     }
 
     public function submit()
@@ -28,20 +29,21 @@ class RandomVokabel extends Component
         $answers = $this->vokabel->answers;
 
         $entry_query = [
-          ["user_id", "=", \Auth::id()],
-          ["vokabel_id", "=", $this->vokabel->id]
+            ["user_id", "=", \Auth::id()],
+            ["vokabel_id", "=", $this->vokabel->id]
         ];
 
-        if ($answers->where("word", $this->answer)->count() > 0) {
+        if ($answers->where("word", trim($this->answer))->count() > 0) {
             if (!$this->try_vokabel) {
                 $this->vokabel->inc();
             }
-
+            $this->dispatchBrowserEvent('correct');
             $this->setVokabel();
         } else {
             if (!$this->try_vokabel) {
                 $this->vokabel->dec();
             }
+            $this->answersArray = $this->vokabel->answers->pluck("word")->implode(", ");
             $this->try_vokabel = true;
         }
     }
@@ -54,6 +56,7 @@ class RandomVokabel extends Component
         $this->vokabel = $this->setEntry->vokabel;
         $this->answer = "";
         $this->answersArray = "";
+        $this->show_answer = false;
         $this->try_vokabel = false;
     }
 

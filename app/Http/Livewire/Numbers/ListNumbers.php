@@ -8,7 +8,7 @@ use App\Models\Numbers;
 class ListNumbers extends Component
 {
     public $min = 0;
-    public $max = 10;
+    public $max = 100;
     public $total_max = 100;
     public $numbers;
 

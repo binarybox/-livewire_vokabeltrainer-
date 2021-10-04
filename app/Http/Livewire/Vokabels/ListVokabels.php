@@ -23,9 +23,10 @@ class ListVokabels extends Component
     public $showAdd = false;
 
     protected $listeners = [
-    "addVokabel" => 'toggleAdd',
-    "removeVokabel" => '$refresh'
-  ];
+        "addVokabel" => 'toggleAdd',
+        "removeVokabel" => '$refresh'
+    ];
+
 
     public function remove($id)
     {
@@ -63,12 +64,13 @@ class ListVokabels extends Component
     private function getVokabels()
     {
         return Vokabel::where([["word", "LIKE", "%" . $this->search . "%"]])
-                ->leftJoin("user_stats", function ($query) {
-                    $query->on("user_stats.vokabel_id", "=", "vokabels.id")->where("user_stats.user_id", Auth::id());
-                })
-                ->orderBy("counter")
-                ->orderBy("word")
-                ->paginate(15, ["vokabels.*", "user_stats.counter as counter"], 'page', $this->page);
+            ->with("answers")
+            ->leftJoin("user_stats", function ($query) {
+                $query->on("user_stats.vokabel_id", "=", "vokabels.id")->where("user_stats.user_id", Auth::id());
+            })
+            ->orderBy("counter")
+            ->orderBy("word")
+            ->paginate(15, ["vokabels.*", "user_stats.counter as counter"], 'page', $this->page);
     }
 
     public function render()
@@ -81,14 +83,14 @@ class ListVokabels extends Component
                 $pagination = $this->getVokabels();
             }
 
-
             $this->vokabels = $pagination->items();
+
             $this->current_page = $pagination->currentPage();
             $this->total_vokabels = $pagination->total();
             $this->last_page = $pagination->lastPage();
 
             $this->page_start = $pagination->currentPage() > 3 ? $pagination->currentPage() - 2 : 2;
-            $this->page_end =  $pagination->currentPage() + 3 < $pagination->lastPage() ? $pagination->currentPage() + 3 : $pagination->lastPage()-1;
+            $this->page_end =  $pagination->currentPage() + 3 < $pagination->lastPage() ? $pagination->currentPage() + 3 : $pagination->lastPage() - 1;
         } catch (\Exception $e) {
             // we don't need to do anything, because we initalize the values to the default
         }

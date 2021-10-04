@@ -29,8 +29,8 @@ use Illuminate\Support\Facades\Artisan;
 //   });
 
 
-Route::get("/login", [\App\Http\Controllers\PublicController::class, "login"])->name("login");
-Route::get("/register", [\App\Http\Controllers\PublicController::class, "register"])->name("register");
+Route::get("/login", \App\Http\Livewire\Login::class)->name("login");
+Route::get("/register", \App\Http\Livewire\Register::class)->name("register");
 
 Route::get("/logout", [\App\Http\Controllers\PublicController::class, "logout"])->name("logout");
 
